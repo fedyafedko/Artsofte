@@ -4,8 +4,9 @@ namespace BLL.Interfaces;
 
 public interface IEmployerService
 {
-    Task<EmployerDTO> AddEmployer(EmployerDTO employer);
+    Task<AddEmployerDTO> AddEmployer(AddEmployerDTO addEmployer);
     List<EmployerDTO> GetAll();
-    Task<EmployerDTO> UpdateEmployer(EmployerDTO employer, int id);
+    Task<UpdateEmployerDTO> UpdateEmployer(UpdateEmployerDTO addEmployer, int id);
     Task<bool> DeleteEmployer(int id);
+    Task<EmployerDTO?> GetById(int id);
 }
