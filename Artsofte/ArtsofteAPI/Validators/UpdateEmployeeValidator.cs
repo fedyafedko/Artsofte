@@ -18,9 +18,9 @@ public class UpdateEmployeeValidator : AbstractValidator<UpdateEmployeeDTO>
 
         RuleFor(d => d.Age).GreaterThan(0);
 
-        RuleFor(d => d.DepartmentId).NotEmpty();
+        RuleFor(d => d.DepartmentFloor).NotEmpty();
         
-        RuleFor(d => d.LanguageId).NotEmpty();
+        RuleFor(d => d.LanguageName).NotEmpty();
         
     }
 }

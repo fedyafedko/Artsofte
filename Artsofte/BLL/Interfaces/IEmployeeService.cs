@@ -8,5 +8,4 @@ public interface IEmployeeService
     List<EmployeeDTO> GetAll();
     Task<UpdateEmployeeDTO> UpdateEmployer(UpdateEmployeeDTO addEmployee, int id);
     Task<bool> DeleteEmployer(int id);
-    Task<EmployeeDTO?> GetById(int id);
 }

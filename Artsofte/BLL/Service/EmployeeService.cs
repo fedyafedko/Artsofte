@@ -45,11 +45,4 @@ public class EmployeeService : IEmployeeService
         var employer = await _repository.Table.FindAsync(id);
         return employer != null && await _repository.DeleteAsync(employer) > 0;
     }
-
-    public async Task<EmployeeDTO?> GetById(int id)
-    {
-        var employer = await _repository.Table.FindAsync(id);
-        return employer != null ? _mapper.Map<EmployeeDTO>(employer) : null;
-        
-    }
 }

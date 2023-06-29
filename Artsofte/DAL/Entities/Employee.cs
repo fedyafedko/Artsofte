@@ -12,10 +12,8 @@ public class Employee
     public string Surname { get; set; } = string.Empty;
     public int Age { get; set; }
     public Gender Gender { get; set; }
-    public int DepartmentId { get; set; }
-    public Department Department { get; set; }
-    public int LanguageId { get; set; }
-    public ProgrammingLanguage Language { get; set; }
+    public int DepartmentFloor { get; set; }
+    public string LanguageName { get; set; } = string.Empty;
 }
 public enum Gender
 {

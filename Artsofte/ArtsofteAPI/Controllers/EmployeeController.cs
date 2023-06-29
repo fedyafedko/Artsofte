@@ -12,27 +12,14 @@ public class EmployeeController : Controller
     {
         _service = service;
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        try
-        {
-            return Ok(await _service.GetById(id));
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 
     [HttpPost("add")]
-    [ActionName(nameof(GetById))]
     public async Task<IActionResult> Add(AddEmployeeDTO addEmployee)
     {
         try
         {
             var result = await _service.AddEmployer(addEmployee);
-            return CreatedAtAction(nameof(_service.GetById), new { employer = result.Name }, result);
+            return Ok(result);        
         }
         catch (Exception ex)
         {
@@ -40,7 +27,7 @@ public class EmployeeController : Controller
         }
     }
     [HttpDelete("delete")]
-    public async Task<IActionResult> DeleteCurrency(int id)
+    public async Task<IActionResult> DeleteEmployer(int id)
     {
         try
         {

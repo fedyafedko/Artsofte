@@ -20,16 +20,8 @@ public class AddEmployeeValidator : AbstractValidator<AddEmployeeDTO>
         RuleFor(d => d.Age).GreaterThan(0);
 
         RuleFor(d => d.Department).NotEmpty();
-
-        RuleFor(d => d.Department.Name).NotEmpty()
-            .MinimumLength(1)
-            .MaximumLength(50);
-        RuleFor(d => d.Department.Floor).GreaterThan(0);
         
-        RuleFor(d => d.Language).NotEmpty();
+        RuleFor(d => d.LanguageName).NotEmpty();
 
-        RuleFor(d => d.Language.Name).NotEmpty()
-            .MinimumLength(1)
-            .MaximumLength(50);
     }
 }
