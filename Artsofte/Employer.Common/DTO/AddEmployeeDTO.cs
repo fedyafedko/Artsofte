@@ -1,6 +1,6 @@
 ﻿namespace Employer.Common.DTO;
 
-public class AddEmployerDTO
+public class AddEmployeeDTO
 {
     public string Name { get; set; } = string.Empty;
     public string Surname { get; set; } = string.Empty;

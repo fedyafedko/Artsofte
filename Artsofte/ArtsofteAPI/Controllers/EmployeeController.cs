@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArtsofteAPI.Controllers;
 [Route("/")]
 [ApiController]
-public class EmployerController : Controller
+public class EmployeeController : Controller
 {
-    private readonly IEmployerService _service;
-    public EmployerController(IEmployerService service)
+    private readonly IEmployeeService _service;
+    public EmployeeController(IEmployeeService service)
     {
         _service = service;
     }
@@ -27,11 +27,11 @@ public class EmployerController : Controller
 
     [HttpPost("add")]
     [ActionName(nameof(GetById))]
-    public async Task<IActionResult> Add(AddEmployerDTO addEmployer)
+    public async Task<IActionResult> Add(AddEmployeeDTO addEmployee)
     {
         try
         {
-            var result = await _service.AddEmployer(addEmployer);
+            var result = await _service.AddEmployer(addEmployee);
             return CreatedAtAction(nameof(_service.GetById), new { employer = result.Name }, result);
         }
         catch (Exception ex)
@@ -53,11 +53,11 @@ public class EmployerController : Controller
     }
     [HttpPut("edit")]
 
-    public async Task<IActionResult> Update(int id, [FromBody] UpdateEmployerDTO employer)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateEmployeeDTO employee)
     {
         try
         {
-            var result = await _service.UpdateEmployer(employer, id);
+            var result = await _service.UpdateEmployer(employee, id);
             return Ok(result);
         }
         catch (KeyNotFoundException ex)

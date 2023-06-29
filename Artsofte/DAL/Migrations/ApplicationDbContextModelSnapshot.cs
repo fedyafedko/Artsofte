@@ -41,7 +41,7 @@ namespace DAL.Migrations
                     b.ToTable("Department");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Employer", b =>
+            modelBuilder.Entity("DAL.Entities.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,7 +95,7 @@ namespace DAL.Migrations
                     b.ToTable("ProgrammingLanguage");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Employer", b =>
+            modelBuilder.Entity("DAL.Entities.Employee", b =>
                 {
                     b.HasOne("DAL.Entities.Department", "Department")
                         .WithMany()

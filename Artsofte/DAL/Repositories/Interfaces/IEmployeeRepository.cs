@@ -3,7 +3,7 @@ using DAL.Repositories.Base;
 
 namespace DAL.Repositories.Interfaces;
 
-public interface IEmployerRepository : IRepo<Employer, string>
+public interface IEmployeeRepository : IRepo<Employee, string>
 {
     
 }
