@@ -4,7 +4,7 @@ fetch('http://localhost:5129/')
         const table = document.getElementById('data-table');
         const tbody = table.querySelector('tbody');
 
-        data.forEach(item => {;
+        data.forEach(item => {
             const row = document.createElement('tr');
             row.innerHTML = `
         <td>${item.name}</td>
@@ -14,7 +14,7 @@ fetch('http://localhost:5129/')
         <td>${item.languageName}</td>
         <td>
         <a class="link-update" href="../UpdatePage/update_page.html">Change</a><br>
-        <a class="link-update" href="../UpdatePage/update_page.html">Delete</a>
+        <a class="link-update" href="#" onclick="deleteData('${item.id}')">Delete</a>
         </td>
       `;
             tbody.appendChild(row);
@@ -23,22 +23,35 @@ fetch('http://localhost:5129/')
     .catch(error => {
         console.error('Error:', error);
     });
-
+function deleteData(id){
+    fetch(`http://localhost:5129/delete?id=${id}`, {
+        method: 'DELETE'
+    })
+        .then(function(response) {
+            if (response.ok) {
+                console.log('Request done');
+                alert("You have deleted an employee")
+            }
+            location.reload();
+        })
+        .catch(function(error) {
+            console.log('Error:', error);
+        });
+}
 fetch('http://localhost:5129/Department')
     .then(response => response.json())
     .then(data => {
         const select = document.getElementById('department');
 
-        // Додавання елементів option до випадаючого списку
         data.forEach(item => {
             const option = document.createElement('option');
-            option.value = item.floor;  // значення з API
-            option.textContent = item.floor;  // мітка з API
+            option.value = item.floor;
+            option.textContent = item.floor;
             select.appendChild(option);
         });
     })
     .catch(error => {
-        console.error('Помилка отримання даних з API:', error);
+        console.error('Error:', error);
     });
 
 fetch('http://localhost:5129/Languages')
@@ -46,23 +59,21 @@ fetch('http://localhost:5129/Languages')
     .then(data => {
         const select = document.getElementById('language');
 
-        // Додавання елементів option до випадаючого списку
         data.forEach(item => {
             const option = document.createElement('option');
-            option.value = item.name;  // значення з API
-            option.textContent = item.name;  // мітка з API
+            option.value = item.name;
+            option.textContent = item.name;
             select.appendChild(option);
         });
     })
     .catch(error => {
-        console.error('Помилка отримання даних з API:', error);
+        console.error('Error:', error);
     });
 
 
 function postData(event) {
-    event.preventDefault(); // Зупиняємо перезавантаження сторінки при надсиланні форми
+    event.preventDefault();
 
-    const form = document.getElementById('add_form');
     const name = document.getElementById('name').value;
     const surname = document.getElementById('surname').value;
     const age = document.getElementById('age').value;
@@ -73,7 +84,7 @@ function postData(event) {
         name: name,
         surname: surname,
         age: age,
-        department: department,
+        departmentFloor: department,
         languageName: language
     };
 
@@ -85,14 +96,15 @@ function postData(event) {
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.json())
-        .then(result => {
-            // Обробка результату відповіді сервера
-            console.log('Результат:', result);
-            // Додайте свій код для обробки результату відповіді
+        .then(function(response) {
+            if (response.ok) {
+                console.log('Request done');
+                alert("You have added an employee")
+            }
+            location.reload();
         })
-        .catch(error => {
-            console.error('Помилка:', error);
+        .catch(function(error) {
+            console.log('Error:', error);
         });
 }
 
