@@ -7,7 +7,7 @@ body{
 }
 #add_form {
     background: #F2F4F3;
-    height: 300px;
+    height: 350px;
     width: 200px;
     border: 10px solid #343F3E;
     border-style: double;
@@ -33,7 +33,7 @@ body{
 a{
     text-decoration: none;
     position: relative;
-    top: -350px;
+    top: -400px;
     left: 1350px;
     background: #343F3E;
     font-size: 30px;

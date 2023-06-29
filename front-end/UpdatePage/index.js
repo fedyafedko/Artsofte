@@ -12,7 +12,6 @@ function updateData(event, id) {
     const age = document.getElementById('age').value;
     const department = document.getElementById('department').value;
     const language = document.getElementById('language').value;
-
     const data = {
         name: name,
         surname: surname,

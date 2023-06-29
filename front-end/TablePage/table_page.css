@@ -6,11 +6,12 @@ body{
     background: #343F3E;
 }
 table{
-    position: relative;
-    top: 50%;
+    position: fixed;
+    top: 10%;
     left: 25%;
     transform: translateY(50%);
 }
+
 .grid-table {
     border-collapse: collapse;
     width: 50%;
