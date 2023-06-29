@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="update_page.css">
+</head>
+<body>
+<div id="title">Employee data changes</div>
+<form action="" method="post" id="add_form">
+  <label for="name">Name</label><br>
+  <input type="text" id="name" placeholder="Name"><br><br>
+  <label for="surname">Surname</label><br>
+  <input type="text" id="surname" placeholder="Surname"><br><br>
+  <label for="age">Age</label><br>
+  <input type="text" id="age" placeholder="Age"><br><br>
+  <label for="department">Department</label><br>
+  <select id="department" required>
+    <option selected disabled value="">Choose a department</option>
+  </select><br><br>
+  <label for="language">Language</label><br>
+  <select id="language" required>
+    <option selected disabled value="">Choose a language</option>
+  </select><br><br>
+  <input id="add" type="submit" name="Add" value="Add">
+  <input id="reset" type="reset" name="reset" value="Reset">
+</form>
+<a href="../TablePage/table_page.html">Watch all users</a>
+</body>
+</html>
