@@ -1,4 +1,4 @@
-﻿namespace Employer.Common.DTO.Department;
+﻿namespace Employee.Common.DTO.Department;
 
 public class DepartmentDTO
 {

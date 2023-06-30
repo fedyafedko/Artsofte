@@ -33,7 +33,7 @@ namespace DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentFloor = table.Column<int>(type: "int", nullable: false),
                     LanguageName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

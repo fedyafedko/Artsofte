@@ -55,8 +55,9 @@ namespace DAL.Migrations
                     b.Property<int>("DepartmentFloor")
                         .HasColumnType("int");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LanguageName")
                         .IsRequired()

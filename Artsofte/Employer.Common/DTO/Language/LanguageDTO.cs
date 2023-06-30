@@ -1,4 +1,4 @@
-﻿namespace Employer.Common.DTO.Language;
+﻿namespace Employee.Common.DTO.Language;
 
 public class LanguageDTO
 {

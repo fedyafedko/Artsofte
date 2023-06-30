@@ -1,5 +1,5 @@
 ﻿using BLL.Interfaces;
-using Employer.Common.DTO;
+using Employee.Common.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtsofteAPI.Controllers;
@@ -14,11 +14,11 @@ public class EmployeeController : Controller
     }
 
     [HttpPost("add")]
-    public async Task<IActionResult> Add(AddEmployeeDTO addEmployee)
+    public async Task<IActionResult> Add(AddEmployeeDTO employee)
     {
         try
         {
-            var result = await _service.AddEmployer(addEmployee);
+            var result = await _service.AddEmployee(employee);
             return Ok(result);        
         }
         catch (Exception ex)
@@ -31,7 +31,7 @@ public class EmployeeController : Controller
     {
         try
         {
-            return await _service.DeleteEmployer(id) ? Ok() : NotFound();
+            return await _service.DeleteEmployee(id) ? Ok() : NotFound();
         }
         catch (Exception ex)
         {
@@ -44,7 +44,7 @@ public class EmployeeController : Controller
     {
         try
         {
-            var result = await _service.UpdateEmployer(employee, id);
+            var result = await _service.UpdateEmployee(employee, id);
             return Ok(result);
         }
         catch (KeyNotFoundException ex)

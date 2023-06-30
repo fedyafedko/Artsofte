@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230629131306_EmployeeMigration")]
+    [Migration("20230630083809_EmployeeMigration")]
     partial class EmployeeMigration
     {
         /// <inheritdoc />
@@ -58,8 +58,9 @@ namespace DAL.Migrations
                     b.Property<int>("DepartmentFloor")
                         .HasColumnType("int");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LanguageName")
                         .IsRequired()

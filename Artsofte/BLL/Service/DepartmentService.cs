@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BLL.Interfaces;
 using DAL.Repositories.Interfaces;
-using Employer.Common.DTO.Department;
+using Employee.Common.DTO.Department;
 
 namespace BLL.Service;
 

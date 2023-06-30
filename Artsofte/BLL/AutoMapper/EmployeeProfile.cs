@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Employer.Common.DTO;
-using Employer.Common.DTO.Department;
-using Employer.Common.DTO.Language;
+using Employee.Common.DTO;
+using Employee.Common.DTO.Department;
+using Employee.Common.DTO.Language;
 
 namespace BLL.AutoMapper;
 

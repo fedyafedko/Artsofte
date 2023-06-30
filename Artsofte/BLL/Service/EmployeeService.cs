@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BLL.Interfaces;
 using DAL.Repositories.Interfaces;
-using Employer.Common.DTO;
+using Employee.Common.DTO;
 
 namespace BLL.Service;
 
@@ -15,11 +15,12 @@ public class EmployeeService : IEmployeeService
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
-    public async Task<AddEmployeeDTO> AddEmployer(AddEmployeeDTO addEmployee)
+    public async Task<AddEmployeeDTO> AddEmployee(AddEmployeeDTO employee)
     {
-        DAL.Entities.Employee entity = _mapper.Map<DAL.Entities.Employee>(addEmployee);
+        DAL.Entities.Employee entity = _mapper.Map<DAL.Entities.Employee>(employee);
         if (await _repository.Table.FindAsync(entity.Id) != null)
             throw new InvalidOperationException("Entity with such key already exists in the database");
+        entity.Gender = employee.Gender.ToString();
         await _repository.AddAsync(entity);
         return _mapper.Map<AddEmployeeDTO>(entity);
     }
@@ -29,7 +30,7 @@ public class EmployeeService : IEmployeeService
         return _mapper.Map<IEnumerable<EmployeeDTO>>(_repository.GetAll()).ToList();
     }
 
-    public async Task<UpdateEmployeeDTO> UpdateEmployer(UpdateEmployeeDTO employee, int id)
+    public async Task<UpdateEmployeeDTO> UpdateEmployee(UpdateEmployeeDTO employee, int id)
     {
         var entity = await _repository.Table.FindAsync(id);
         if (entity == null)
@@ -40,7 +41,7 @@ public class EmployeeService : IEmployeeService
         return _mapper.Map<UpdateEmployeeDTO>(entity);
     }
 
-    public async Task<bool> DeleteEmployer(int id)
+    public async Task<bool> DeleteEmployee(int id)
     {
         var employer = await _repository.Table.FindAsync(id);
         return employer != null && await _repository.DeleteAsync(employer) > 0;

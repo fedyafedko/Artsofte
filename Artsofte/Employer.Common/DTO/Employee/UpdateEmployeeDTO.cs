@@ -1,4 +1,4 @@
-﻿namespace Employer.Common.DTO;
+﻿namespace Employee.Common.DTO;
 
 public class UpdateEmployeeDTO
 {

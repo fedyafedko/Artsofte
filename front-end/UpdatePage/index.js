@@ -38,6 +38,6 @@ function updateData(event, id) {
             location.reload();
         })
         .catch(function (error) {
-            console.log('Сталася помилка під час виконання запиту PUT:', error);
+            console.log('Error', error);
         });
 }

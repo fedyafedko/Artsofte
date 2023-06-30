@@ -1,6 +1,6 @@
 ﻿using BLL.Interfaces;
 using DAL.Entities;
-using Employer.Common.DTO.Department;
+using Employee.Common.DTO.Department;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtsofteAPI.Controllers;

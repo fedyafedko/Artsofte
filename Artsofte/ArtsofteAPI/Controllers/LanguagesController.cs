@@ -1,5 +1,5 @@
 ﻿using BLL.Interfaces;
-using Employer.Common.DTO.Language;
+using Employee.Common.DTO.Language;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtsofteAPI.Controllers;
@@ -15,11 +15,11 @@ public class LanguagesController : ControllerBase
     }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> Add(LanguageDTO addEmployee)
+    public async Task<IActionResult> Add(LanguageDTO language)
     {
         try
         {
-            var result = await _service.AddLanguage(addEmployee);
+            var result = await _service.AddLanguage(language);
             return Ok(result);
         }
         catch (Exception ex)

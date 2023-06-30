@@ -1,4 +1,4 @@
-﻿using Employer.Common.DTO;
+﻿using Employee.Common.DTO;
 using FluentValidation;
 
 namespace ArtsofteAPI.Validators;
