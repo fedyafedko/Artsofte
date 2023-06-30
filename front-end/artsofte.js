@@ -20,21 +20,52 @@ fetch('http://localhost:5129/Department')
         console.error('Error:', error);
     });
 
-fetch('http://localhost:5129/Languages')
-    .then(response => response.json())
-    .then(data => {
-        const select = document.getElementById('language');
+$(function() {
+    fetch('http://localhost:5129/Languages')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('language');
 
-        data.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.name;
-            option.textContent = item.name;
-            select.appendChild(option);
+            // Extract the "name" property from each object in the fetched data
+            const fetchedTags = data.map(item => item.name);
+
+            // Combine the fetched tags with the existing availableTags array
+            let availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme",
+                ...fetchedTags
+            ];
+
+            let uniqueTags = [...new Set(availableTags)];
+
+            $("#language").autocomplete({
+                source: uniqueTags
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+});
 
 
 

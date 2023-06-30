@@ -30,7 +30,7 @@ function updateData(event, id) {
         .then(function (response) {
             if (response.ok) {
                 console.log('Request done');
-                alert("You have added an employee")
+                alert("You have updated an employee")
             }
             else{
                 alert("You have entered incorrect data")
