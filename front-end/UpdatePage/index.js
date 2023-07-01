@@ -1,12 +1,24 @@
 function openUpdateForm(event, id) {
     event.preventDefault();
 
-    // Відкриття вікна або перенаправлення на сторінку оновлення з передачею ідентифікатора
     window.location.href = `../UpdatePage/update_page.html?id=${id}`;
 }
+const urlParams = new URLSearchParams(window.location.search);
+const userId = urlParams.get('id');
+fetch(`http://localhost:5129/${userId}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        document.getElementById('name').value = data.name;
+        document.getElementById('surname').value = data.surname;
+        document.getElementById('age').value = data.age;
+        document.getElementById('department').value = data.departmentFloor;
+        document.getElementById('language').value = data.languageName;
+    })
+    .catch(error => {
+        console.log('Error', error);
+    });
 function updateData(event, id) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('id');
     const name = document.getElementById('name').value;
     const surname = document.getElementById('surname').value;
     const age = document.getElementById('age').value;

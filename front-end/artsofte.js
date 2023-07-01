@@ -1,7 +1,6 @@
 function openUpdateForm(event, id) {
     event.preventDefault();
 
-    // Відкриття вікна або перенаправлення на сторінку оновлення з передачею ідентифікатора
     window.location.href = `../UpdatePage/update_page.html?id=${id}`;
 }
 fetch('http://localhost:5129/Department')
@@ -26,10 +25,8 @@ $(function() {
         .then(data => {
             const select = document.getElementById('language');
 
-            // Extract the "name" property from each object in the fetched data
             const fetchedTags = data.map(item => item.name);
 
-            // Combine the fetched tags with the existing availableTags array
             let availableTags = [
                 "ActionScript",
                 "AppleScript",

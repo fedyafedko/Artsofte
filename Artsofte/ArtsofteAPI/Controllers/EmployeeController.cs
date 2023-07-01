@@ -12,7 +12,18 @@ public class EmployeeController : Controller
     {
         _service = service;
     }
-
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        try
+        {
+            return Ok(await _service.GetById(id));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
     [HttpPost("add")]
     public async Task<IActionResult> Add(AddEmployeeDTO employee)
     {

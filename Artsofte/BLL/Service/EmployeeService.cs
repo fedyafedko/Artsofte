@@ -24,7 +24,11 @@ public class EmployeeService : IEmployeeService
         await _repository.AddAsync(entity);
         return _mapper.Map<AddEmployeeDTO>(entity);
     }
-
+    public async Task<EmployeeDTO?> GetById(int id)
+    {
+        var employee = await _repository.Table.FindAsync(id);
+        return employee != null ? _mapper.Map<EmployeeDTO>(employee) : null;
+    }
     public List<EmployeeDTO> GetAll()
     {
         return _mapper.Map<IEnumerable<EmployeeDTO>>(_repository.GetAll()).ToList();
