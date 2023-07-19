@@ -1,10 +1,7 @@
 using ArtsofteAPI.Validators;
-using BLL.AutoMapper;
 using BLL.Interfaces;
 using BLL.Service;
 using DAL.EF;
-using DAL.Repositories;
-using DAL.Repositories.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +10,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAutoMapper(typeof(EmployeeProfile).Assembly);
 builder.Services.AddControllers();
 //DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//Repositories
-builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>(); 
-builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //Service
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();

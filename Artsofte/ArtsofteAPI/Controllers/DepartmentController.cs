@@ -1,5 +1,4 @@
 ﻿using BLL.Interfaces;
-using DAL.Entities;
 using Employee.Common.DTO.Department;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +14,7 @@ public class DepartmentController : ControllerBase
         _service = service;
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("department")]
     public async Task<IActionResult> Add(DepartmentDTO department)
     {
         try
@@ -29,12 +28,12 @@ public class DepartmentController : ControllerBase
         }
     }
     
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateLanguage(int id, DepartmentDTO department)
+    [HttpPut("department")]
+    public async Task<IActionResult> UpdateLanguage(int floor, UpdateDepartmentDTO department)
     {
         try
         {
-            var result = await _service.UpdateDepartment(department, id);
+            var result = await _service.UpdateDepartment(department, floor);
             return Ok(result);
         }
         catch (KeyNotFoundException ex)
@@ -58,12 +57,12 @@ public class DepartmentController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpDelete("delete")]
-    public async Task<IActionResult> DeleteEmployer(int id)
+    [HttpDelete("department")]
+    public async Task<IActionResult> DeleteEmployer(int floor)
     {
         try
         {
-            return await _service.DeleteDepartment(id) ? Ok() : NotFound();
+            return await _service.DeleteDepartment(floor) ? Ok() : NotFound();
         }
         catch (Exception ex)
         {

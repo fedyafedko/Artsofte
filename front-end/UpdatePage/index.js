@@ -5,15 +5,16 @@ function openUpdateForm(event, id) {
 }
 const urlParams = new URLSearchParams(window.location.search);
 const userId = urlParams.get('id');
-fetch(`http://localhost:5129/${userId}`)
+fetch(`http://localhost:5129/`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        document.getElementById('name').value = data.name;
-        document.getElementById('surname').value = data.surname;
-        document.getElementById('age').value = data.age;
-        document.getElementById('department').value = data.departmentFloor;
-        document.getElementById('language').value = data.languageName;
+        const user = data.filter(user => user.id === parseInt(userId));
+        console.log(user);
+        document.getElementById('name').value = user[0].name;
+        document.getElementById('surname').value = user[0].surname;
+        document.getElementById('age').value = user[0].age;
+        document.getElementById('department').value = user[0].departmentFloor;
+        document.getElementById('language').value = user[0].languageName;
     })
     .catch(error => {
         console.log('Error', error);

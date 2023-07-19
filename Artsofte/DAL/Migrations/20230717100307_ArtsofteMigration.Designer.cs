@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230630083809_EmployeeMigration")]
-    partial class EmployeeMigration
+    [Migration("20230717100307_ArtsofteMigration")]
+    partial class ArtsofteMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,20 +26,17 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Department", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Floor")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Floor")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Floor"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Floor");
 
                     b.ToTable("Departments");
                 });
@@ -64,7 +61,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("LanguageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -76,24 +73,50 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentFloor");
+
+                    b.HasIndex("LanguageName");
+
                     b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("DAL.Entities.ProgrammingLanguage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Employee", b =>
+                {
+                    b.HasOne("DAL.Entities.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentFloor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.ProgrammingLanguage", "Language")
+                        .WithMany("Employees")
+                        .HasForeignKey("LanguageName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Language");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Department", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("DAL.Entities.ProgrammingLanguage", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

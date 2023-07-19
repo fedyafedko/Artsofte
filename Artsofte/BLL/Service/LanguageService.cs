@@ -1,48 +1,47 @@
-﻿using AutoMapper;
-using BLL.Interfaces;
-using DAL.Repositories.Interfaces;
+﻿using BLL.Interfaces;
+using DAL.EF;
 using Employee.Common.DTO.Language;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Service;
 
 public class LanguageService : ILanguageService
 {
-    private readonly ILanguageRepository _repository;
-    private readonly IMapper _mapper;
+    private readonly ApplicationDbContext _applicationDbContext;
 
-    public LanguageService(ILanguageRepository repository, IMapper mapper)
+    public LanguageService(ApplicationDbContext applicationDbContext)
     {
-        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
     }
+
     public async Task<LanguageDTO> AddLanguage(LanguageDTO language)
     {
-        DAL.Entities.ProgrammingLanguage entity = _mapper.Map<DAL.Entities.ProgrammingLanguage>(language);
-        if (await _repository.Table.FindAsync(entity.Id) != null)
-            throw new InvalidOperationException("Entity with such key already exists in the database");
-        await _repository.AddAsync(entity);
-        return _mapper.Map<LanguageDTO>(entity);
+        await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC [dbo].[AddLanguage] @Name",
+            new SqlParameter("@Name", language.Name));
+        return language;
     }
 
-    public List<LanguageDTO> GetAll()
+    public List<DAL.Entities.ProgrammingLanguage> GetAll()
     {
-        return _mapper.Map<IEnumerable<LanguageDTO>>(_repository.GetAll()).ToList();
+        return _applicationDbContext.Languages.FromSqlRaw("GetAllLanguages").ToList();
     }
 
-    public async Task<LanguageDTO> UpdateLanguage(LanguageDTO language, int id)
+    public async Task<LanguageDTO> UpdateLanguage(LanguageDTO language, string name)
     {
-        var entity = await _repository.Table.FindAsync(id);
-        if (entity == null)
-            throw new KeyNotFoundException($"Unable to find entity with such key {id}");
-
-        _mapper.Map(language, entity);
-        await _repository.UpdateAsync(entity);
-        return _mapper.Map<LanguageDTO>(entity);
+        await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC [dbo].[UpdateLanguage] @Id, @Name",
+        new SqlParameter("@Id", name),
+        new SqlParameter("@Name", language.Name));
+        return language;
     }
 
-    public async Task<bool> DeleteLanguage(int id)
+    public async Task<bool> DeleteLanguage(string name)
     {
-        var language = await _repository.Table.FindAsync(id);
-        return language != null && await _repository.DeleteAsync(language) > 0;
+        var language = await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC [dbo].[DeleteLanguage] @Id",
+            new SqlParameter("@Id", name));
+        return language < 0;
     }
 }

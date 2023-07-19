@@ -14,7 +14,7 @@ public class LanguagesController : ControllerBase
         _service = service;
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("language")]
     public async Task<IActionResult> Add(LanguageDTO language)
     {
         try
@@ -28,12 +28,12 @@ public class LanguagesController : ControllerBase
         }
     }
     
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateLanguage(int id, LanguageDTO language)
+    [HttpPut("language")]
+    public async Task<IActionResult> UpdateLanguage(string name, LanguageDTO language)
     {
         try
         {
-            var result = await _service.UpdateLanguage(language, id);
+            var result = await _service.UpdateLanguage(language, name);
             return Ok(result);
         }
         catch (KeyNotFoundException ex)
@@ -57,12 +57,12 @@ public class LanguagesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpDelete("delete")]
-    public async Task<IActionResult> DeleteEmployer(int id)
+    [HttpDelete("language")]
+    public async Task<IActionResult> DeleteEmployer(string name)
     {
         try
         {
-            return await _service.DeleteLanguage(id) ? Ok() : NotFound();
+            return await _service.DeleteLanguage(name) ? Ok() : NotFound();
         }
         catch (Exception ex)
         {

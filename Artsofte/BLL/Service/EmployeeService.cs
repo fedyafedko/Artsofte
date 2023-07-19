@@ -1,53 +1,59 @@
-﻿using AutoMapper;
-using BLL.Interfaces;
-using DAL.Repositories.Interfaces;
+﻿using BLL.Interfaces;
+using DAL.EF;
 using Employee.Common.DTO;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Service;
 
 public class EmployeeService : IEmployeeService
 {
-    private readonly IEmployeeRepository _repository;
-    private readonly IMapper _mapper;
+    private readonly ApplicationDbContext _applicationDbContext;
 
-    public EmployeeService(IEmployeeRepository repository, IMapper mapper)
+    public EmployeeService(ApplicationDbContext applicationDbContext)
     {
-        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
     }
+
     public async Task<AddEmployeeDTO> AddEmployee(AddEmployeeDTO employee)
     {
-        DAL.Entities.Employee entity = _mapper.Map<DAL.Entities.Employee>(employee);
-        if (await _repository.Table.FindAsync(entity.Id) != null)
-            throw new InvalidOperationException("Entity with such key already exists in the database");
-        entity.Gender = employee.Gender.ToString();
-        await _repository.AddAsync(entity);
-        return _mapper.Map<AddEmployeeDTO>(entity);
+        await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC AddEmployee @Name, @Surname, @Age, @Gender, @DepartmentFloor, @LanguageName",
+            new SqlParameter("@Name", employee.Name),
+            new SqlParameter("@Surname", employee.Surname),
+            new SqlParameter("@Age", employee.Age),
+            new SqlParameter("@Gender", employee.Gender.ToString()),
+            new SqlParameter("@DepartmentFloor", employee.DepartmentFloor),
+            new SqlParameter("@LanguageName", employee.LanguageName)
+        );
+
+        return employee;
     }
-    public async Task<EmployeeDTO?> GetById(int id)
+
+    public List<DAL.Entities.Employee> GetAll()
     {
-        var employee = await _repository.Table.FindAsync(id);
-        return employee != null ? _mapper.Map<EmployeeDTO>(employee) : null;
-    }
-    public List<EmployeeDTO> GetAll()
-    {
-        return _mapper.Map<IEnumerable<EmployeeDTO>>(_repository.GetAll()).ToList();
+        return _applicationDbContext.Employees.FromSqlRaw("GetAllEmployee").ToList();
     }
 
     public async Task<UpdateEmployeeDTO> UpdateEmployee(UpdateEmployeeDTO employee, int id)
     {
-        var entity = await _repository.Table.FindAsync(id);
-        if (entity == null)
-            throw new KeyNotFoundException($"Unable to find entity with such key {id}");
-
-        _mapper.Map(employee, entity);
-        await _repository.UpdateAsync(entity);
-        return _mapper.Map<UpdateEmployeeDTO>(entity);
+        await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC UpdateEmployee @Id, @Name, @Surname, @Age, @DepartmentFloor, @LanguageName",
+            new SqlParameter("@Id", id),
+            new SqlParameter("@Name", employee.Name),
+            new SqlParameter("@Surname", employee.Surname),
+            new SqlParameter("@Age", employee.Age),
+            new SqlParameter("@DepartmentFloor", employee.DepartmentFloor),
+            new SqlParameter("@LanguageName", employee.LanguageName)
+        );
+        return employee;
     }
 
     public async Task<bool> DeleteEmployee(int id)
     {
-        var employer = await _repository.Table.FindAsync(id);
-        return employer != null && await _repository.DeleteAsync(employer) > 0;
+        var employee = await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC [dbo].[DeleteEmployee] @Id",
+        new SqlParameter("@Id", id));
+        return employee < 0;
     }
 }

@@ -4,7 +4,7 @@ function postData(event) {
     const name = document.getElementById('name').value;
     const surname = document.getElementById('surname').value;
     const age = document.getElementById('age').value;
-    const genderes = document.querySelector('input[name="gender"]:checked').value;
+    const genderes = document.querySelector('input[name="options-outlined"]:checked').id;
     const department = document.getElementById('department').value;
     const language = document.getElementById('language').value;
     const gender = genderes == "Male" ? 0 : 1;

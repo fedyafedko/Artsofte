@@ -6,12 +6,11 @@ fetch('http://localhost:5129/')
 
         data.forEach(item => {
             const row = document.createElement('tr');
-            let gender = item.gender == 0 ? "Male" : "Female";
             row.innerHTML = `
         <td>${item.name}</td>
         <td>${item.surname}</td>
         <td>${item.age}</td>
-        <td>${gender}</td>
+        <td>${item.gender}</td>
         <td>${item.departmentFloor}</td>
         <td>${item.languageName}</td>
         <td>

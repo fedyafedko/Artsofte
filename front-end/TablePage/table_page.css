@@ -2,21 +2,33 @@
     margin: 0;
     padding: 0;
 }
-body{
+#table_header{
+    background: #D6CBC1;
+    height: 100px;
+}
+#table_main{
     background: #343F3E;
+    height: 613px;
+}
+#name_page{
+    width: 200px;
+    font-size: 30px;
+    font-family: "Arial Black";
+    position: relative;
+    top: 20%;
+    left: 87%;
 }
 table{
     position: fixed;
-    top: 10%;
-    left: 25%;
-    transform: translateY(50%);
+    top: 30%;
+    left: 23%;
 }
 
-.grid-table {
+#data-table {
     border-collapse: collapse;
-    width: 50%;
+    width: 55%;
+    margin: 0 auto;
 }
-
 .grid-header {
     border: 1px solid #ccc;
     padding: 8px;
@@ -32,12 +44,11 @@ table{
 #add{
     text-decoration: none;
     position: relative;
-    top: -15px;
-    left: 50px;
-    background: #343F3E;
+    left: 10px;
+    top: -20%;
     font-size: 30px;
-    border: 1px solid #F2F4F3;
-    color: #F2F4F3;
+    border: 2px solid #343434;
+    color: #343434;
 }
 #title{
     width: 300px;

@@ -1,12 +1,11 @@
-﻿using Employee.Common.DTO;
-using Employee.Common.DTO.Language;
+﻿using Employee.Common.DTO.Language;
 
 namespace BLL.Interfaces;
 
 public interface ILanguageService
 {
     Task<LanguageDTO> AddLanguage(LanguageDTO language);
-    List<LanguageDTO> GetAll();
-    Task<LanguageDTO> UpdateLanguage(LanguageDTO language, int id);
-    Task<bool> DeleteLanguage(int id);
+    List<DAL.Entities.ProgrammingLanguage> GetAll();
+    Task<LanguageDTO> UpdateLanguage(LanguageDTO language, string name);
+    Task<bool> DeleteLanguage(string name);
 }

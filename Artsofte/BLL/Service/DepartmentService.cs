@@ -1,48 +1,46 @@
-﻿using AutoMapper;
-using BLL.Interfaces;
-using DAL.Repositories.Interfaces;
+﻿using BLL.Interfaces;
+using DAL.EF;
 using Employee.Common.DTO.Department;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Service;
 
 public class DepartmentService : IDepartmentService
 {
-    private readonly IDepartmentRepository _repository;
-    private readonly IMapper _mapper;
-
-    public DepartmentService(IDepartmentRepository repository, IMapper mapper)
+    private readonly ApplicationDbContext _applicationDbContext;
+    public DepartmentService(ApplicationDbContext applicationDbContext)
     {
-        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
     }
     public async Task<DepartmentDTO> AddDepartment(DepartmentDTO department)
     {
-        DAL.Entities.Department entity = _mapper.Map<DAL.Entities.Department>(department);
-        if (await _repository.Table.FindAsync(entity.Id) != null)
-            throw new InvalidOperationException("Entity with such key already exists in the database");
-        await _repository.AddAsync(entity);
-        return _mapper.Map<DepartmentDTO>(entity);
+        await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC [dbo].[AddDepartment] @Floor, @Name",
+            new SqlParameter("@Floor", department.Floor),
+            new SqlParameter("@Name", department.Name));
+        return department;
     }
 
-    public List<DepartmentDTO> GetAll()
+    public List<DAL.Entities.Department> GetAll()
     {
-        return _mapper.Map<IEnumerable<DepartmentDTO>>(_repository.GetAll()).ToList();
+        return _applicationDbContext.Departments.FromSqlRaw("GetAllDepartments").ToList();
     }
 
-    public async Task<DepartmentDTO> UpdateDepartment(DepartmentDTO department, int id)
+    public async Task<UpdateDepartmentDTO> UpdateDepartment(UpdateDepartmentDTO department, int floor)
     {
-        var entity = await _repository.Table.FindAsync(id);
-        if (entity == null)
-            throw new KeyNotFoundException($"Unable to find entity with such key {id}");
-
-        _mapper.Map(department, entity);
-        await _repository.UpdateAsync(entity);
-        return _mapper.Map<DepartmentDTO>(entity);
+        await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC [dbo].[UpdateDepartment] @Floor, @Name",
+            new SqlParameter("@Floor", floor),
+            new SqlParameter("@Name", department.Name));
+        return department;
     }
 
-    public async Task<bool> DeleteDepartment(int id)
+    public async Task<bool> DeleteDepartment(int floor)
     {
-        var language = await _repository.Table.FindAsync(id);
-        return language != null && await _repository.DeleteAsync(language) > 0;
+        var employee = await _applicationDbContext.Database.ExecuteSqlRawAsync(
+            "EXEC [dbo].[DeleteDepartment] @Floor",
+            new SqlParameter("@Floor", floor));
+        return employee < 0;
     }
 }
