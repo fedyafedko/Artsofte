@@ -7,7 +7,7 @@ Employee registration project. To register, you must specify your first name, la
 1. Open the application.
 2. The employee registration form will be available on the main page.
 3. Fill in all the necessary fields (name, surname, age, gender, department, programming language).
-4. Click the "Aff" button to add the employee to the database.
+4. Click the "Add" button to add the employee to the database.
 5. To view all employees, go to the second page.
 6. To change employee data, click on the corresponding button in the table and make the necessary changes in the form.
 
